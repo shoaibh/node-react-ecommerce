@@ -66,6 +66,7 @@ class NavbarContainer extends Component {
       subMenuCategorySelected: '',
       openCartPreview: false
     };
+    this.handleSubMenuExit = this.handleSubMenuExit.bind(this)
   }
   toggle() {
     this.setState({

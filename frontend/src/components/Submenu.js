@@ -45,13 +45,14 @@ const Submenu = ({
   ItemList, 
   handleSubMenuExit
 }) => {
+  console.log("===",{option})
     return(
   <div style={styles.subMenu} onMouseLeave={handleSubMenuExit}>
     <Row>
       <Col md="3">
-        <img alt={option} style={styles.subMenuImage} src={option === 'Energy' ? 
+        <img alt={option} style={styles.subMenuImage} src={option === 'energy' ? 
         '/images/Energy.jpeg' :
-        option === 'Essentials'?
+        option === 'essentials'?
         '/images/Essentials.jpeg': '/images/others.jpeg'} />
         </Col>
         <Col style={styles.subMenuCategories}>
