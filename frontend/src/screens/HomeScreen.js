@@ -4,14 +4,19 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Rating from '../components/Rating';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
+const getProductList = (state) => state.productList
 function HomeScreen(props) {
+
+  
   const [searchKeyword, setSearchKeyword] = useState('');
   const [sortOrder, setSortOrder] = useState('');
   const category = props.match.params.id ? props.match.params.id : '';
-  const productList = useSelector((state) => state.productList);
+  const productList = useSelector(getProductList);
   const { products, loading, error } = productList;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  
   useEffect(() => {
     dispatch(listProducts(category));
 
@@ -19,6 +24,8 @@ function HomeScreen(props) {
       //
     };
   }, [category]);
+
+  
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -34,23 +41,14 @@ function HomeScreen(props) {
       {category && <h2>{category}</h2>}
 
       <ul className="filter">
-        <li>
-          <form onSubmit={submitHandler}>
-            <input
-              name="searchKeyword"
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
-            <button type="submit">Search</button>
-          </form>
-        </li>
-        <li>
-          Sort By{' '}
-          <select name="sortOrder" onChange={sortHandler}>
-            <option value="">Newest</option>
-            <option value="lowest">Lowest</option>
-            <option value="highest">Highest</option>
-          </select>
-        </li>
+          <li>
+            Sort By{' '}
+            <select name="sortOrder" onChange={sortHandler}>
+              <option value="">Newest</option>
+              <option value="lowest">Lowest</option>
+              <option value="highest">Highest</option>
+            </select>
+          </li>
       </ul>
       {loading ? (
         <div>Loading...</div>
@@ -58,7 +56,9 @@ function HomeScreen(props) {
         <div>{error}</div>
       ) : (
         <ul className="products">
-          {products.map((product) => (
+          {
+            products.length>0?
+          products.map((product) => (
             <li key={product._id}>
               <div className="product">
                 <Link to={'/product/' + product._id}>
@@ -81,7 +81,7 @@ function HomeScreen(props) {
                 </div>
               </div>
             </li>
-          ))}
+          )): <div>Sorry, No Items to show</div>}
         </ul>
       )}
     </>
