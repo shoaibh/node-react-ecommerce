@@ -1,6 +1,12 @@
 .blink {
   animation: blinker 2s linear infinite;
 }
+.chatBot {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  z-index: 999;
+}
 
 @keyframes blinker {
   50% {

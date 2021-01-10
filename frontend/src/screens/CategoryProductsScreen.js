@@ -5,21 +5,23 @@ import { listProducts } from "../actions/productActions";
 import Rating from "../components/Rating";
 
 const getProductList = (state) => state.productList;
-function HomeScreen(props) {
-  const category = props.match.params.category
-    ? props.match.params.category
+
+export const CategoryProductsScreen = (props) => {
+  const product = props.match.params.product
+    ? props.match.params.product.split("_").join(" ")
     : "";
+  console.log(product);
   const productList = useSelector(getProductList);
   const { products, loading, error } = productList;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listProducts(category));
+    dispatch(listProducts(product));
 
     return () => {
       //
     };
-  }, [category]);
+  }, [product]);
 
   return (
     <>
@@ -61,5 +63,6 @@ function HomeScreen(props) {
       )}
     </>
   );
-}
-export default HomeScreen;
+};
+
+export default CategoryProductsScreen;
