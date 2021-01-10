@@ -44,10 +44,15 @@ function App() {
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route
-            path="/:category/:product"
+            path="/productList/:product"
             component={CategoryProductsScreen}
           />
-          <Route exact path="/:category" component={HomeScreen} />
+          <Route
+            exact
+            path="/category/:category"
+            exact={true}
+            component={HomeScreen}
+          />
           <Route exact path="/" exact={true} component={Home} />
         </div>
       </main>

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { detailsProduct, saveProductReview } from '../actions/productActions';
-import Rating from '../components/Rating';
-import { PRODUCT_REVIEW_SAVE_RESET } from '../constants/productConstants';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { detailsProduct, saveProductReview } from "../actions/productActions";
+import Rating from "../components/Rating";
+import { PRODUCT_REVIEW_SAVE_RESET } from "../constants/productConstants";
+import Loader from "../Loader";
 
 function ProductScreen(props) {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const productDetails = useSelector((state) => state.productDetails);
@@ -19,9 +20,9 @@ function ProductScreen(props) {
 
   useEffect(() => {
     if (productSaveSuccess) {
-      alert('Review submitted successfully.');
+      alert("Review submitted successfully.");
       setRating(0);
-      setComment('');
+      setComment("");
       dispatch({ type: PRODUCT_REVIEW_SAVE_RESET });
     }
     dispatch(detailsProduct(props.match.params.id));
@@ -41,16 +42,16 @@ function ProductScreen(props) {
     );
   };
   const handleAddToCart = () => {
-    props.history.push('/cart/' + props.match.params.id + '?qty=' + qty);
+    props.history.push("/cart/" + props.match.params.id + "?qty=" + qty);
   };
 
   return (
     <div>
-      <div className="back-to-result">
-        <Link to="/">Back to result</Link>
-      </div>
+      <div className="back-to-result"></div>
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <Loader />
+        </div>
       ) : error ? (
         <div>{error} </div>
       ) : (
@@ -61,22 +62,37 @@ function ProductScreen(props) {
             </div>
             <div className="details-info">
               <ul>
-                <li>
+                <li
+                  style={{
+                    fontFamily: '"Courier New", monospace',
+                    fontSize: "20px",
+                  }}
+                >
                   <h4>{product.name}</h4>
                 </li>
                 <li>
                   <a href="#reviews">
                     <Rating
                       value={product.rating}
-                      text={product.numReviews + ' reviews'}
+                      text={product.numReviews + " reviews"}
                     />
                   </a>
                 </li>
-                <li>
-                  Price: <b>${product.price}</b>
+                <li
+                  style={{
+                    fontFamily: '"Brush Script MT", cursive',
+                    fontSize: "20px",
+                  }}
+                >
+                  Price: <b>₹{product.price}</b>
                 </li>
-                <li>
-                  Description:
+                <li
+                  style={{
+                    fontFamily: '"Courier New", monospace',
+                    fontSize: "20px",
+                  }}
+                >
+                  <b>Description:</b>
                   <div>{product.description}</div>
                 </li>
               </ul>
@@ -85,11 +101,11 @@ function ProductScreen(props) {
               <ul>
                 <li>Price: {product.price}</li>
                 <li>
-                  Status:{' '}
-                  {product.countInStock > 0 ? 'In Stock' : 'Unavailable.'}
+                  Status:{" "}
+                  {product.countInStock > 0 ? "In Stock" : "Unavailable."}
                 </li>
                 <li>
-                  Qty:{' '}
+                  Qty:{" "}
                   <select
                     value={qty}
                     onChange={(e) => {
@@ -108,6 +124,7 @@ function ProductScreen(props) {
                     <button
                       onClick={handleAddToCart}
                       className="button primary"
+                      style={{}}
                     >
                       Add to Cart
                     </button>

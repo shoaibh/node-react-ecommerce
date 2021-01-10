@@ -58,7 +58,13 @@ const Home = () => {
       callback: (product) => {
         setSearchKeyword(product);
         SpeechRecognition.stopListening();
-        history.push(`/category/${product}`);
+        const productSearch = product
+          .toLowerCase()
+          .split(" ")
+          .join("_");
+        if (productSearch == "energy" || productSearch == "essentials")
+          history.push(`/category/${productSearch}`);
+        else history.push(`/productList/${productSearch}`);
       },
     },
   ];
@@ -67,7 +73,13 @@ const Home = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    history.push(`/category/${searchKeyword}`);
+    const productSearch = searchKeyword
+      .toLowerCase()
+      .split(" ")
+      .join("_");
+    if (productSearch == "energy" || productSearch == "essentials")
+      history.push(`/category/${searchKeyword}`);
+    else history.push(`/productList/${productSearch}`);
   };
   let speech = new SpeechSynthesisUtterance();
   useEffect(() => {

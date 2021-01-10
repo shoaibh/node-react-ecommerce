@@ -2,7 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { listProducts } from "../actions/productActions";
-import Rating from "../components/Rating";
+import Loader from "../Loader";
+import Product from "../components/Product";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
+export const responsive = {
+  desktop: {
+    breakpoint: { max: 2000, min: 1024 },
+    items: 3,
+    slidesToSlide: 1, // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    slidesToSlide: 2, // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1, // optional, default to 1.
+  },
+};
 
 const getProductList = (state) => state.productList;
 function HomeScreen(props) {
@@ -24,36 +45,35 @@ function HomeScreen(props) {
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <Loader />
+        </div>
       ) : error ? (
         <div>{error}</div>
       ) : (
         <ul className="products">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <li key={product._id}>
-                <div className="product">
-                  <Link to={"/product/" + product._id}>
-                    <img
-                      className="product-image"
-                      src={product.image}
-                      alt="product"
-                    />
-                  </Link>
-                  <div className="product-name">
-                    <Link to={"/product/" + product._id}>{product.name}</Link>
-                  </div>
-                  <div className="product-brand">{product.brand}</div>
-                  <div className="product-price">${product.price}</div>
-                  <div className="product-rating">
-                    <Rating
-                      value={product.rating}
-                      text={product.numReviews + " reviews"}
-                    />
-                  </div>
-                </div>
-              </li>
-            ))
+          {products.length > 3 ? (
+            <Carousel
+              swipeable={false}
+              draggable={false}
+              infinite={true}
+              responsive={responsive}
+              ssr={true}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              autoPlay={true}
+              autoPlaySpeed={3000}
+              deviceType={"desktop"}
+              containerClass="carousel-container"
+              itemClass="carousel-item-padding-20-px"
+            >
+              {products.map((product) => (
+                <Product product={product} />
+              ))}
+            </Carousel>
+          ) : products.length > 0 ? (
+            products.map((product) => <Product product={product} />)
           ) : (
             <div>Sorry, No Items to show</div>
           )}

@@ -1,5 +1,6 @@
 import {
   PRODUCT_LIST_REQUEST,
+  PRODUCT_LIST_REQUEST_WITH_TYPE,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_DETAILS_REQUEST,
@@ -15,11 +16,25 @@ import {
   PRODUCT_REVIEW_SAVE_REQUEST,
   PRODUCT_REVIEW_SAVE_FAIL,
   PRODUCT_REVIEW_SAVE_RESET,
-} from '../constants/productConstants';
+} from "../constants/productConstants";
 
 function productListReducer(state = { products: [] }, action) {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
+      return { loading: true, products: [] };
+    case PRODUCT_LIST_SUCCESS:
+      return { loading: false, products: action.payload };
+    case PRODUCT_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+}
+
+function productListReducerWithType(state = { products: [] }, action) {
+  console.log("reducer");
+  switch (action.type) {
+    case PRODUCT_LIST_REQUEST_WITH_TYPE:
       return { loading: true, products: [] };
     case PRODUCT_LIST_SUCCESS:
       return { loading: false, products: action.payload };
@@ -85,6 +100,7 @@ function productReviewSaveReducer(state = {}, action) {
 
 export {
   productListReducer,
+  productListReducerWithType,
   productDetailsReducer,
   productSaveReducer,
   productDeleteReducer,

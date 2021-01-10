@@ -15,19 +15,23 @@ const styles = {
   itemMenu: {
     padding: "10px",
     listStyleType: "none",
+    textDecoration: "none",
+    fontSize: "25px",
   },
   arrowDown: {
     width: 0,
     height: 0,
     borderStyle: "solid",
     borderWidth: "30px 18px 0 18px",
-    borderColor: " #072a48 transparent transparent transparent",
+    borderColor: " #205c05 transparent transparent transparent",
     position: "absolute",
     zIndex: "3",
   },
   navbarBackground: {
-    backgroundColor: "#072a48",
+    // background-color: red; /* For browsers that do not support gradients */
+    background: `linear-gradient(#62f51d,#205c05 )`,
     zIndex: 3,
+    height: "80px",
   },
 };
 
@@ -93,7 +97,11 @@ class NavbarContainer extends Component {
           style={itemMenu}
           onMouseEnter={() => this.handleSubMenuEnter(id)}
         >
-          <NavLink to={`/${id}`} className="text-white">
+          <NavLink
+            to={`/category/${id}`}
+            className="text-white"
+            style={{ textDecoration: "none", fontSize: "25px" }}
+          >
             {id.charAt(0).toUpperCase() + id.slice(1)}
           </NavLink>{" "}
           {arrowStyleSubmenu(subMenuCategorySelected, id, arrowDown)}
@@ -118,8 +126,7 @@ class NavbarContainer extends Component {
       <div className="sticky-top">
         <Navbar light expand="md" style={navbarBackground}>
           <Link to="/" style={itemMenu} className="text-white">
-            {" "}
-            Home
+            Paryavaran
           </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={isOpen} navbar>
@@ -129,9 +136,11 @@ class NavbarContainer extends Component {
           </Collapse>
 
           <NavItem style={itemMenu}>
-            <NavLink to="/cart" className="text-white mr-5">
-              cart
-            </NavLink>
+            {this.props.userInfo && !this.props.userInfo.isAdmin && (
+              <NavLink to="/cart" className="text-white mr-5">
+                cart
+              </NavLink>
+            )}
             {this.props.userInfo ? (
               <NavLink to="/profile" className="text-white mr-5">
                 {this.props.userInfo.name}
@@ -142,21 +151,14 @@ class NavbarContainer extends Component {
               </NavLink>
             )}
             {this.props.userInfo && this.props.userInfo.isAdmin && (
-              <div className="dropdown">
-                <a href="#" className="text-white mr-5">
-                  Admin
-                </a>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/orders" className="text-white mr-3">
-                      Orders
-                    </Link>
-                    <Link to="/products" className="text-white mr-3">
-                      Products
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <span>
+                <NavLink to="/orders" className="text-white mr-5">
+                  Orders
+                </NavLink>
+                <NavLink to="/products" className="text-white mr-5">
+                  Products
+                </NavLink>
+              </span>
             )}
           </NavItem>
         </Navbar>

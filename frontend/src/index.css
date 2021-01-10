@@ -19,9 +19,9 @@ button {
 .grid-container {
   display: grid;
   grid-template-areas:
-    'header'
-    'main'
-    'footer';
+    "header"
+    "main"
+    "footer";
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
   height: 100%;
@@ -77,7 +77,7 @@ a:hover {
   list-style-type: none;
   padding: 0;
   flex: 0 1 34rem;
-  margin: 1rem;
+  margin: 3rem;
   height: 50rem;
   border-bottom: 0.1rem #c0c0c0 solid;
 }
@@ -85,25 +85,36 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  text-align: center;
+}
+.product-details {
+  margin-top: 20px;
+  background-color: rgb(126, 252, 48, 0.2);
 }
 .product-name {
   font-size: 2rem;
   font-weight: bold;
+  font-family: "Courier New", monospace;
 }
 .product-brand {
   font-size: 1.2rem;
   color: #808080;
+  margin-top: 5px;
 }
 .product-price {
   font-size: 2rem;
   font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 4rem;
+  font-family: "Brush Script MT", cursive;
 }
 .product-image {
-  max-width: 34rem;
-  max-height: 34rem;
+  width: 24rem;
+  height: 24rem;
 }
 .product-rating {
+  margin-top: 50px;
+
   margin-bottom: 1rem;
 }
 /* Reviews */
@@ -223,7 +234,7 @@ a > .rating > span:last-child {
   border: 0.1rem #404040 solid;
 }
 .button.primary {
-  background-color: #f0c040;
+  background-image: linear-gradient(to right, #59b007, #8efc26);
 }
 .button.secondary {
   background-color: #f0f0f0;
@@ -348,8 +359,8 @@ tbody > tr:nth-child(odd) {
   padding-top: 1rem;
 }
 .checkout-steps > div.active {
-  border-top: 0.3rem #f08000 solid;
-  color: #f08000;
+  border-top: 0.3rem #9afa3e solid;
+  color: #9afa3e;
 }
 
 /* Place Order */
@@ -410,26 +421,6 @@ tbody > tr:nth-child(odd) {
 }
 .profile-orders {
   flex: 3 1 60rem;
-}
-
-/* admin */
-.dropdown {
-  display: inline-block;
-  position: relative;
-}
-.dropdown-content {
-  position: absolute;
-  display: none;
-  right: 0;
-  padding: 1rem;
-  list-style-type: none;
-  z-index: 1;
-  background-color: #203040;
-  margin: 0;
-  margin-top: 0.4rem;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
 /* filter */

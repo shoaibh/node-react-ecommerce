@@ -12,27 +12,27 @@ const propTypes = {
 const styles = {
   subMenu: {
     width: "100%",
-    height: "250px",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    height: "300px",
+    backgroundColor: "rgba(166, 255, 97, 0.5)",
     position: "absolute",
     top: "0",
     left: "0",
     zIndex: "2",
   },
   subMenuImage: {
-    width: "100%",
+    width: "120%",
     maxHeight: "300px",
-    padding: "70px",
+    padding: "100px",
   },
   subMenuCategories: {
-    paddingTop: "70px",
+    paddingTop: "100px",
   },
   subMenuCategoriesUl: {
     listStyleType: "none",
-    fontSize: "15px",
+    fontSize: "20px",
   },
   subMenuCategory: {
-    color: "#343a40",
+    color: "#000000",
   },
 };
 
@@ -61,7 +61,10 @@ const Submenu = ({ option, ItemList, handleSubMenuExit }) => {
             {ItemList.map((x) => (
               <div key={x}>
                 <Link
-                  to={`/${option}/${x.split(" ").join("_")}`}
+                  to={`/productList/${x
+                    .toLowerCase()
+                    .split(" ")
+                    .join("_")}`}
                   style={styles.subMenuCategory}
                 >
                   {" "}

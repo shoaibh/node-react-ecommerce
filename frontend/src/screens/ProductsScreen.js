@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import {
   saveProduct,
   listProducts,
   deleteProdcut,
-} from '../actions/productActions';
+} from "../actions/productActions";
+import { ProductType } from "../constants/productConstants";
 
 function ProductsScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [countInStock, setCountInStock] = useState('');
-  const [description, setDescription] = useState('');
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [productType, setProductType] = useState({});
+  const [typeValue, setTypeValue] = useState("");
+  const [countInStock, setCountInStock] = useState("");
+  const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   const productList = useSelector((state) => state.productList);
   const { loading, products, error } = productList;
@@ -46,6 +49,10 @@ function ProductsScreen(props) {
     };
   }, [successSave, successDelete]);
 
+  useEffect(() => {
+    if (category) setProductType(ProductType[category]);
+  }, [setCategory, category, productType, setProductType]);
+
   const openModal = (product) => {
     setModalVisible(true);
     setId(product._id);
@@ -67,6 +74,7 @@ function ProductsScreen(props) {
         image,
         brand,
         category,
+        productType: typeValue.toLowerCase(),
         countInStock,
         description,
       })
@@ -78,12 +86,12 @@ function ProductsScreen(props) {
   const uploadFileHandler = (e) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
-    bodyFormData.append('image', file);
+    bodyFormData.append("image", file);
     setUploading(true);
     axios
-      .post('/api/uploads', bodyFormData, {
+      .post("/api/uploads", bodyFormData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
@@ -98,7 +106,6 @@ function ProductsScreen(props) {
   return (
     <div className="content content-margined">
       <div className="product-header">
-        <h3>Products</h3>
         <button className="button primary" onClick={() => openModal({})}>
           Create Product
         </button>
@@ -168,14 +175,34 @@ function ProductsScreen(props) {
                 ></input>
               </li>
               <li>
-                <label htmlFor="name">Category</label>
-                <input
-                  type="text"
+                <label htmlFor="category">Category</label>
+                <select
                   name="category"
                   value={category}
                   id="category"
                   onChange={(e) => setCategory(e.target.value)}
-                ></input>
+                >
+                  {Object.keys(ProductType).map((product) => (
+                    <option value={product}>{product}</option>
+                  ))}
+                </select>
+              </li>
+              <li>
+                <label htmlFor="productType">Product Type</label>
+                {productType && (
+                  <select
+                    name="productType"
+                    value={typeValue}
+                    id="productType"
+                    onChange={(e) => {
+                      setTypeValue(productType[e.target.value].toLowerCase());
+                    }}
+                  >
+                    {Object.keys(productType).map((product) => (
+                      <option value={product}>{product}</option>
+                    ))}
+                  </select>
+                )}
               </li>
               <li>
                 <label htmlFor="description">Description</label>
@@ -188,7 +215,7 @@ function ProductsScreen(props) {
               </li>
               <li>
                 <button type="submit" className="button primary">
-                  {id ? 'Update' : 'Create'}
+                  {id ? "Update" : "Create"}
                 </button>
               </li>
               <li>
@@ -228,7 +255,7 @@ function ProductsScreen(props) {
                 <td>
                   <button className="button" onClick={() => openModal(product)}>
                     Edit
-                  </button>{' '}
+                  </button>{" "}
                   <button
                     className="button"
                     onClick={() => deleteHandler(product)}
